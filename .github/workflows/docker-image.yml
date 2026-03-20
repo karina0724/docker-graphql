@@ -25,8 +25,11 @@ jobs:
       run: |
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
         
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build the Docker image
+      run: docker build -t karina987/docker-graphql:0.0.1 .
+
+    - name: Push the Docker image
+      run: docker push karina987/docker-graphql:0.0.1 .
 
     - name: Docker logout & cleanup
       if: always()

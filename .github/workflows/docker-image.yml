@@ -32,18 +32,21 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-        echo "New version: --- $NEW_VERSION ---"
         
     - name: Build the Docker image
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker build -t karina987/docker-graphql:$NEW_VERSION .
-        docker build -t karina987/docker-graphql:latest .
+        docker build \
+          -t karina987/docker-graphql:$NEW_VERSION \
+          -t karina987/docker-graphql:latest \
+          .
       
     - name: Push the Docker image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker push karina987/docker-graphql:0.0.1
+        docker push karina987/docker-graphql:$NEW_VERSION
         docker push karina987/docker-graphql:latest
 
     - name: Docker logout & cleanup

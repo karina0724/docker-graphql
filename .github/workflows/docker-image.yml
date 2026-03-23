@@ -35,15 +35,15 @@ jobs:
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
         echo "New version: --- $NEW_VERSION ---"
         
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build -t karina987/docker-graphql:0.0.1 .
-    #     docker build -t karina987/docker-graphql:latest .
+    - name: Build the Docker image
+      run: |
+        docker build -t karina987/docker-graphql:$NEW_VERSION .
+        docker build -t karina987/docker-graphql:latest .
       
-    # - name: Push the Docker image
-    #   run: |
-    #     docker push karina987/docker-graphql:0.0.1
-    #     docker push karina987/docker-graphql:latest
+    - name: Push the Docker image
+      run: |
+        docker push karina987/docker-graphql:0.0.1
+        docker push karina987/docker-graphql:latest
 
     - name: Docker logout & cleanup
       if: always()
